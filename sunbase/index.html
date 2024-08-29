@@ -12,6 +12,40 @@
         <button onclick="showAddCustomerForm()">Add Customer</button>
         <button onclick="syncAndFetchCustomers()">Sync Customers</button>
 
+        <div class="filters">
+            <h3>Search and Filter</h3>
+            <label for="searchField">Search Field:</label>
+            <select id="searchField">
+                <option value="firstName">First Name</option>
+                <option value="lastName">Last Name</option>
+                <option value="email">Email</option>
+                <!-- Add more fields as needed -->
+            </select>
+
+            <label for="search">Search:</label>
+            <input type="text" id="search" placeholder="Search value...">
+
+            <label for="sortField">Sort By:</label>
+            <select id="sortField">
+                <option value="id">ID</option>
+                <option value="firstName">First Name</option>
+                <option value="lastName">Last Name</option>
+                <option value="email">Email</option>
+                <!-- Add more fields as needed -->
+            </select>
+
+            <label for="sortDirection">Sort Direction:</label>
+            <select id="sortDirection">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+
+            <label for="size">Page Size:</label>
+            <input type="number" id="size" value="10" min="1">
+
+            <button onclick="applyFilters()">Apply Filters</button>
+        </div>
+
         <table id="customerTable">
             <thead>
                 <tr>
@@ -32,13 +66,19 @@
                 <!-- Rows will be added dynamically -->
             </tbody>
         </table>
+
+        <div class="pagination">
+            <button onclick="previousPage()">&#9664;</button>
+            <input type="number" id="page" value="1" min="1" onchange="applyFilters()">
+            <button onclick="nextPage()">&#9654;</button>
+        </div>
     </div>
 
     <div id="customerForm" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeForm()">&times;</span>
             <h2 id="formTitle">Add Customer</h2>
-            <form id="customerFormDetails" style="display: flex;flex-direction: column;gap: 10px;">
+            <form id="customerFormDetails" style="display: flex; flex-direction: column; gap: 10px;">
                 <input type="hidden" id="customerId">
                 <label for="firstName">First Name:</label>
                 <input type="text" id="firstName" name="firstName" required>

@@ -2,39 +2,92 @@ document.addEventListener("DOMContentLoaded", function() {
     fetchCustomers();
 });
 
-function fetchCustomers() {
-    fetch('http://localhost:8080/api/customers', {
+// function fetchCustomers() {
+//     fetch('http://localhost:8080/api/customers', {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+        
+//     }).then(response => response.json()).then(data => {
+//             let tableBody = document.getElementById("customerTableBody");
+//             tableBody.innerHTML = '';
+//             data.forEach(customer => {
+//                 let row = `
+//                     <tr>
+//                         <td>${customer.id}</td>
+//                         <td>${customer.uuid}</td>
+//                         <td>${customer.firstName}</td>
+//                         <td>${customer.lastName}</td>
+//                         <td>${customer.street}</td>
+//                         <td>${customer.address}</td>
+//                         <td>${customer.city}</td>
+//                         <td>${customer.state}</td>
+//                         <td>${customer.email}</td>
+//                         <td>${customer.phone}</td>
+//                         <td>
+//                             <button onclick="editCustomer(${customer.id})">Edit</button>
+//                             <button onclick="deleteCustomer(${customer.id})">Delete</button>
+//                         </td>
+//                     </tr>
+//                 `;
+//                 tableBody.innerHTML += row;
+//             });
+//         });
+// }
+
+function fetchCustomers(searchField ='firstName',search = '', sortField = 'id', sortDirection = 'asc', page = 0, size = 10) {
+    const url = new URL('http://localhost:8080/api/customers/all');
+    url.searchParams.append('searchField', searchField);
+    url.searchParams.append('search', search);
+    url.searchParams.append('sortField', sortField);
+    url.searchParams.append('sortDirection', sortDirection);
+    url.searchParams.append('page', page);
+    url.searchParams.append('size', size);
+
+    fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-        
-    }).then(response => response.json()).then(data => {
-            let tableBody = document.getElementById("customerTableBody");
-            tableBody.innerHTML = '';
-            data.forEach(customer => {
-                let row = `
-                    <tr>
-                        <td>${customer.id}</td>
-                        <td>${customer.uuid}</td>
-                        <td>${customer.firstName}</td>
-                        <td>${customer.lastName}</td>
-                        <td>${customer.street}</td>
-                        <td>${customer.address}</td>
-                        <td>${customer.city}</td>
-                        <td>${customer.state}</td>
-                        <td>${customer.email}</td>
-                        <td>${customer.phone}</td>
-                        <td>
-                            <button onclick="editCustomer(${customer.id})">Edit</button>
-                            <button onclick="deleteCustomer(${customer.id})">Delete</button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        let tableBody = document.getElementById("customerTableBody");
+        tableBody.innerHTML = '';
+        data.content.forEach(customer => {
+            let row = `
+                <tr>
+                    <td>${customer.id}</td>
+                    <td>${customer.uuid}</td>
+                    <td>${customer.firstName}</td>
+                    <td>${customer.lastName}</td>
+                    <td>${customer.street}</td>
+                    <td>${customer.address}</td>
+                    <td>${customer.city}</td>
+                    <td>${customer.state}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone}</td>
+                    <td>
+                        <button onclick="editCustomer(${customer.id})">Edit</button>
+                        <button onclick="deleteCustomer(${customer.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
         });
+    })
+    .catch(error => {
+        console.error('Error fetching customers:', error);
+    });
 }
+
+
 
 function showAddCustomerForm() {
     document.getElementById("customerForm").style.display = "block";
@@ -113,6 +166,36 @@ function syncAndFetchCustomers() {
         console.error('Error during synchronization:', error);
     });
 }
+
+function applyFilters() {
+    const searchField = document.getElementById('searchField').value;
+    const search = document.getElementById('search').value;
+    const sortField = document.getElementById('sortField').value;
+    const sortDirection = document.getElementById('sortDirection').value;
+    
+    const size = document.getElementById('size').value;
+
+const page = parseInt(document.getElementById('page').value) - 1;
+    fetchCustomers(searchField, search, sortField, sortDirection, page, size);
+}
+
+function previousPage() {
+    let pageInput = document.getElementById('page');
+    let currentPage = parseInt(pageInput.value);
+    if (currentPage > 1) {
+        pageInput.value = currentPage - 1;
+        applyFilters();
+    }
+}
+
+function nextPage() {
+    let pageInput = document.getElementById('page');
+    let currentPage = parseInt(pageInput.value);
+    pageInput.value = currentPage + 1;
+    applyFilters();
+}
+
+
 
 
 document.getElementById("customerFormDetails").addEventListener("submit", function(event) {
