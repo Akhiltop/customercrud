@@ -85,6 +85,12 @@ public class Customer {
 		this.email = email;
 		this.phone = phone;
 	}
+	public Customer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	
     
     
