@@ -82,7 +82,7 @@ This project is a full-stack Customer Management Application built using a Sprin
 
 1. **Navigate to the Frontend Directory**:
    ```bash
-   cd ./frontend
+   cd ./sunbase
    ```
 
 2. **Open the HTML File**:
