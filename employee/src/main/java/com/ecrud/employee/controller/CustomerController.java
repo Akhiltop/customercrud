@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecrud.employee.dto.ExternalCustomerDTO;
 import com.ecrud.employee.entity.Customer;
 import com.ecrud.employee.service.CustomerService;
 
@@ -50,5 +51,11 @@ public class CustomerController {
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping("/sync")
+    public String syncCustomers(@RequestBody List<ExternalCustomerDTO> externalCustomers) {
+        customerService.syncCustomersFromExternalData(externalCustomers);
+        return "Customer sync process completed.";
     }
 }

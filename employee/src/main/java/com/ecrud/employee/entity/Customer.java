@@ -10,6 +10,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String uuid;
     private String firstName;
     private String lastName;
     private String street;
@@ -23,6 +24,13 @@ public class Customer {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -72,10 +80,12 @@ public class Customer {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public Customer(Long id, String firstName, String lastName, String street, String address, String city,
+	
+	public Customer(Long id, String uuid, String firstName, String lastName, String street, String address, String city,
 			String state, String email, String phone) {
 		super();
 		this.id = id;
+		this.uuid = uuid;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.street = street;
@@ -85,6 +95,7 @@ public class Customer {
 		this.email = email;
 		this.phone = phone;
 	}
+	
 	public Customer() {
 		super();
 		// TODO Auto-generated constructor stub
