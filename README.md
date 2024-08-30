@@ -87,6 +87,9 @@ This project is a full-stack Customer Management Application built using a Sprin
 
 2. **Open the HTML File**:
    - Open `index.html` in your preferred web browser.
+  
+   ![image](https://github.com/user-attachments/assets/2dbe6384-6ab4-4144-b286-48f3cb08b4e2)
+
 
 3. **Interact with the Application**:
    - Use the provided interface to manage customers.
@@ -109,6 +112,9 @@ This project is a full-stack Customer Management Application built using a Sprin
 - **PUT /api/customers/{id}**: Update an existing customer.
 - **DELETE /api/customers/{id}**: Delete a customer.
 - **GET /api/customers/all**: Fetch a list of customers with optional search, sorting, and pagination.
+
+![image](https://github.com/user-attachments/assets/fdd80340-b5c6-4249-9b36-16dac7f65b64)
+
 
 ## Conclusion
 
